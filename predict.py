@@ -1,8 +1,10 @@
 import argparse
 import json
 import tensorflow as tf
+import tensorflow_hub as hub  # Ensure tensorflow_hub is imported for KerasLayer
 from tensorflow.keras.models import load_model
 from utils import predict
+
 
 def main():
     parser = argparse.ArgumentParser(description='Predict flower type from an image.')
@@ -13,7 +15,7 @@ def main():
 
     args = parser.parse_args()
 
-    model = load_model(args.model_path, custom_objects={'KerasLayer': tf.keras.layers.Layer})
+    model = load_model(args.model_path, custom_objects={'KerasLayer': hub.KerasLayer})
 
     probabilities, classes, _ = predict(args.image_path, model, args.top_k)
 
